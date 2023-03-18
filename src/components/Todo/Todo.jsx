@@ -9,12 +9,15 @@ const Todo = ({ text, tags, complete, completeHandler, deleteHandler }) => {
 
     return (
         <div className={todoClasses}>
-            <RiTodoFill className={styles.todoIcon} />
-            <div className={styles.todoText}>{text}</div>
-            <RiDeleteBin2Line className={styles.deleteIcon} onClick={deleteHandler} />
-            <RiCheckFill className={styles.checkIcon} onClick={completeHandler} />
-            <div>
-                {tags.map(tag => <li key={tag.tagID}>{tag.tagName}</li>)}
+            <div className={styles.todoContent}>
+                <RiTodoFill className={styles.todoIcon} />
+                <div className={styles.todoText}>{text}</div>
+                <RiDeleteBin2Line className={styles.deleteIcon} onClick={deleteHandler} />
+                <RiCheckFill className={styles.checkIcon} onClick={completeHandler} />
+            </div>
+            <hr />
+            <div className={styles.todoTags}>
+                {tags.map(tag => <li key={tag.tagID}>#{tag.tagName}</li>)}
             </div>
         </div>
     );
