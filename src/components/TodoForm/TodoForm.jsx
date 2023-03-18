@@ -17,7 +17,11 @@ const TodoForm = ({ addTodo }) => {
     return (
         <div className={styles.formWrapper}>
             <form>
-                <input type="text" value={inputText} onChange={(e) => setInputText(e.target.value)} placeholder="Enter new todo..." />
+                <input
+                    type="text"
+                    value={inputText}
+                    onChange={(e) => setInputText(e.target.value)} placeholder="Enter new todo..."
+                />
                 <Button
                     onClickHandler={submitHandler}
                     title="Add todo"
@@ -25,7 +29,12 @@ const TodoForm = ({ addTodo }) => {
                 >
                     Submit
                 </Button>
-                <TagsInput tags={tags} setTags={setTags} />
+                <div style={{ 'display': inputText.length === 0 ? 'none' : 'block' }}>
+                    <TagsInput
+                        tags={tags}
+                        setTags={setTags}
+                    />
+                </div>
             </form>
         </div>
     );
