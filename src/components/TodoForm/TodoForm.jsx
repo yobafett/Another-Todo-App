@@ -14,27 +14,31 @@ const TodoForm = ({ addTodo }) => {
         setTags([]);
     }
 
+    const tagSection = inputText.length > 0 ? (
+        <div className={styles.tagsInput}>
+            <TagsInput tags={tags} setTags={setTags} />
+        </div>
+    ) : null;
+
     return (
         <div className={styles.formWrapper}>
             <form>
-                <input
-                    type="text"
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)} placeholder="Enter new todo..."
-                />
-                <Button
-                    onClickHandler={submitHandler}
-                    title="Add todo"
-                    disabled={inputText.length === 0}
-                >
-                    Submit
-                </Button>
-                <div style={{ 'display': inputText.length === 0 ? 'none' : 'block' }}>
-                    <TagsInput
-                        tags={tags}
-                        setTags={setTags}
+                <div className={styles.textInput}>
+                    <input
+                        type="text"
+                        value={inputText}
+                        onChange={(e) => setInputText(e.target.value)}
+                        placeholder="Enter new todo..."
                     />
+                    <Button
+                        onClickHandler={submitHandler}
+                        title="Add todo"
+                        disabled={inputText.length === 0}
+                    >
+                        Submit
+                    </Button>
                 </div>
+                {tagSection}
             </form>
         </div>
     );
