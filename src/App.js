@@ -1,24 +1,28 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+
 import './App.css';
+
 import TodoForm from './components/TodoForm/TodoForm';
 import TodoList from './components/TodoLIst/TodoList';
 import TodoListActions from './components/TodoListActions/TodoListActions';
 
 function App() {
   const [todos, setTodos] = useState([]);
+  const [tags, setTags] = useState([]);
 
-  const addTodo = (text, tags = []) => {
+  const addTodo = (text, todoTags = []) => {
     const newTodo = {
       id: uuidv4(),
       text: text,
       complete: false,
-      tags: tags.map(tag => ({
-        tagName: tag,
-        tagID: uuidv4()
-      }))
+      tags: todoTags
     };
     setTodos([...todos, newTodo]);
+
+    const allTags = [...tags, ...todoTags];
+    const uniqueTags = allTags.filter((value, index) => allTags.indexOf(value) === index);
+    setTags(uniqueTags);
   };
 
   const completeTodo = (id) => {

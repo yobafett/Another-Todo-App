@@ -17,7 +17,7 @@ const Todo = ({ text, tags, complete, completeHandler, deleteHandler }) => {
             </div>
             <hr />
             <div className={styles.todoTags}>
-                {tags.map(tag => <li key={tag.tagID}>#{tag.tagName}</li>)}
+                {tags.map((tag, i) => <li key={i}>#{tag}</li>)}
             </div>
         </div>
     );
