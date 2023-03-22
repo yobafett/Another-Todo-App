@@ -1,0 +1,17 @@
+{
+    "todos": [
+        {
+            "id": "a06700a8-409c-45d0-b3d7-f191b6bf9246",
+            "text": "Todo one",
+            "complete": false,
+            "tags": [
+                "TagOne",
+                "Tag two"
+            ]
+        }
+    ],
+    "tags": [
+        "TagOne",
+        "Tag two"
+    ]
+}

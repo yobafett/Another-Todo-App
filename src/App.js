@@ -1,8 +1,10 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import './App.css';
 
+import TagsSection from './components/TagsSection/TagsSection';
 import TodoForm from './components/TodoForm/TodoForm';
 import TodoList from './components/TodoLIst/TodoList';
 import TodoListActions from './components/TodoListActions/TodoListActions';
@@ -10,6 +12,34 @@ import TodoListActions from './components/TodoListActions/TodoListActions';
 function App() {
   const [todos, setTodos] = useState([]);
   const [tags, setTags] = useState([]);
+  const [activeTag, setActiveTag] = useState();
+
+  //
+  const [isTodosLoading, setIsTodosLoading] = useState(true);
+  const [isTagsLoading, setIsTagsLoading] = useState(true);
+
+  if (isTodosLoading) {
+    axios.get('http://localhost:3001/todos')
+      .then(function (response) {
+        setTodos(response.data);
+        setIsTodosLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }
+
+  if (isTagsLoading) {
+    axios.get('http://localhost:3001/tags')
+      .then(function (response) {
+        setTags(response.data);
+        setIsTagsLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }
+  //
 
   const addTodo = (text, todoTags = []) => {
     const newTodo = {
@@ -41,25 +71,36 @@ function App() {
     return todo.complete ? currentCount + 1 : currentCount;
   }, 0);
 
+  const content = isTodosLoading ?
+    (<div>Loading...</div>) :
+    (
+      <>
+        <TodoForm addTodo={addTodo} />
+        {
+          todos.length <= 0 ?
+            null :
+            <TodoListActions
+              delAllHandler={delAllTodo}
+              delComplHandler={delCompleteTodo}
+              hasComplete={completeCount > 0}
+            />
+        }
+
+        {isTagsLoading ? (<div>Loading</div>) : <TagsSection tags={tags} />}
+
+        <TodoList
+          todos={todos}
+          deleteTodo={delTodo}
+          completeTodo={completeTodo}
+          completeCount={completeCount}
+        />
+      </>
+    )
+
   return (
     <div className="App">
       <h1>Todo app</h1>
-      <TodoForm addTodo={addTodo} />
-      {
-        todos.length <= 0 ?
-          null :
-          <TodoListActions
-            delAllHandler={delAllTodo}
-            delComplHandler={delCompleteTodo}
-            hasComplete={completeCount > 0}
-          />
-      }
-      <TodoList
-        todos={todos}
-        deleteTodo={delTodo}
-        completeTodo={completeTodo}
-        completeCount={completeCount}
-      />
+      {content}
     </div>
   );
 }
