@@ -9,12 +9,31 @@ import TodoForm from './components/TodoForm/TodoForm';
 import TodoList from './components/TodoLIst/TodoList';
 import TodoListActions from './components/TodoListActions/TodoListActions';
 
+const writeTodo = (todo) => {
+  axios.post('http://localhost:3001/todos', todo)
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+const writeTag = (tag) => {
+  axios.post('http://localhost:3001/tags', tag)
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
 function App() {
   const [todos, setTodos] = useState([]);
   const [tags, setTags] = useState([]);
   const [activeTag, setActiveTag] = useState();
 
-  //
   const [isTodosLoading, setIsTodosLoading] = useState(true);
   const [isTagsLoading, setIsTagsLoading] = useState(true);
 
@@ -39,20 +58,36 @@ function App() {
         console.log(error);
       })
   }
-  //
 
   const addTodo = (text, todoTags = []) => {
+    const tagsObjs = todoTags.map((newTag, i) => {
+      const searchResult = tags.findIndex((tag) => tag.text === newTag.toLowerCase());
+
+      let tag;
+      if (searchResult < 0) {
+        tag = {
+          id: uuidv4(),
+          text: newTag.toLowerCase()
+        }
+
+        setTags([...tags, tag]);
+        writeTag(tag)
+      } else {
+        tag = tags[searchResult];
+      }
+
+      return tag;
+    })
+
     const newTodo = {
       id: uuidv4(),
       text: text,
       complete: false,
-      tags: todoTags
+      tags: tagsObjs
     };
-    setTodos([...todos, newTodo]);
 
-    const allTags = [...tags, ...todoTags];
-    const uniqueTags = allTags.filter((value, index) => allTags.indexOf(value) === index);
-    setTags(uniqueTags);
+    setTodos([...todos, newTodo]);
+    writeTodo(newTodo);
   };
 
   const completeTodo = (id) => {
