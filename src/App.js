@@ -9,7 +9,6 @@ import TodoForm from './components/TodoForm/TodoForm';
 import TodoList from './components/TodoLIst/TodoList';
 import TodoListActions from './components/TodoListActions/TodoListActions';
 
-
 function App() {
   const [todos, setTodos] = useState([]);
   const [tags, setTags] = useState([]);
@@ -32,33 +31,40 @@ function App() {
     })
   }
 
-  const addTodo = (text, todoTags = []) => {
-    const tagsObjs = todoTags.map((newTag, i) => {
+  const createNewTag = (tagText) => {
+    return {
+      id: uuidv4(),
+      text: tagText.toLowerCase()
+    };
+  }
+
+  const addNewTag = (tagText) => {
+    const tag = createNewTag(tagText);
+
+    setTags([...tags, tag]);
+    postTag(tag);
+
+    return tag;
+  }
+
+  const processNewTags = (todoTags) => {
+    return todoTags.map((newTag) => {
       const searchResult = tags.findIndex((tag) => tag.text === newTag.toLowerCase());
+      return searchResult < 0 ? addNewTag(newTag) : tags[searchResult];
+    });
+  }
 
-      let tag;
-      if (searchResult < 0) {
-        tag = {
-          id: uuidv4(),
-          text: newTag.toLowerCase()
-        }
-
-        setTags([...tags, tag]);
-        postTag(tag)
-      } else {
-        tag = tags[searchResult];
-      }
-
-      return tag;
-    })
-
-    const newTodo = {
+  const createNewTodo = (text, todoTags) => {
+    return {
       id: uuidv4(),
       text: text,
       complete: false,
-      tags: tagsObjs
+      tags: todoTags.length > 0 ? processNewTags(todoTags) : []
     };
+  }
 
+  const addTodo = (text, todoTags = []) => {
+    const newTodo = createNewTodo(text, todoTags);
     setTodos([...todos, newTodo]);
     postTodo(newTodo);
   };
@@ -71,44 +77,42 @@ function App() {
     }));
   }
 
-  const delTodo = (id) => setTodos(todos.filter((todo) => id !== todo.id));
-  const delAllTodo = () => setTodos([]);
-  const delCompleteTodo = () => setTodos(todos.filter((item) => !item.complete));
+  const deleteTodo = (id) => setTodos(todos.filter((todo) => id !== todo.id));
+  const deleteAllTodos = () => setTodos([]);
+  const deleteCompleteTodo = () => setTodos(todos.filter((item) => !item.complete));
 
   const completeCount = todos.reduce(function (currentCount, todo) {
     return todo.complete ? currentCount + 1 : currentCount;
   }, 0);
 
-  const content = isTodosLoading ?
-    (<div>Loading...</div>) :
-    (
-      <>
-        <TodoForm addTodo={addTodo} />
-        {
-          todos.length <= 0 ?
-            null :
-            <TodoListActions
-              delAllHandler={delAllTodo}
-              delComplHandler={delCompleteTodo}
-              hasComplete={completeCount > 0}
-            />
-        }
+  const todoListContent = isTodosLoading ?
+    <div>Loading...</div> :
+    <TodoList
+      todos={todos}
+      deleteTodo={deleteTodo}
+      completeTodo={completeTodo}
+      completeCount={completeCount}
+    />;
 
-        {isTagsLoading ? (<div>Loading</div>) : <TagsSection tags={tags} />}
+  const todoListActions = todos.length <= 0 ?
+    null :
+    <TodoListActions
+      delAllHandler={deleteAllTodos}
+      delComplHandler={deleteCompleteTodo}
+      hasComplete={completeCount > 0}
+    />;
 
-        <TodoList
-          todos={todos}
-          deleteTodo={delTodo}
-          completeTodo={completeTodo}
-          completeCount={completeCount}
-        />
-      </>
-    )
+  const tagsContent = isTagsLoading ?
+    <div>Loading...</div> :
+    <TagsSection tags={tags} />;
 
   return (
     <div className="App">
       <h1>Todo app</h1>
-      {content}
+      <TodoForm addTodo={addTodo} />
+      {todoListActions}
+      {tagsContent}
+      {todoListContent}
     </div>
   );
 }
