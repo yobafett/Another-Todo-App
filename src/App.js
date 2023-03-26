@@ -1,33 +1,14 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import './App.css';
 
+import { postTodo, postTag, getTodo, getTags } from './utils/TodoAPI';
 import TagsSection from './components/TagsSection/TagsSection';
 import TodoForm from './components/TodoForm/TodoForm';
 import TodoList from './components/TodoLIst/TodoList';
 import TodoListActions from './components/TodoListActions/TodoListActions';
 
-const writeTodo = (todo) => {
-  axios.post('http://localhost:3001/todos', todo)
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-}
-
-const writeTag = (tag) => {
-  axios.post('http://localhost:3001/tags', tag)
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-}
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -38,25 +19,17 @@ function App() {
   const [isTagsLoading, setIsTagsLoading] = useState(true);
 
   if (isTodosLoading) {
-    axios.get('http://localhost:3001/todos')
-      .then(function (response) {
-        setTodos(response.data);
-        setIsTodosLoading(false);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+    getTodo().then((data) => {
+      setTodos(data);
+      setIsTodosLoading(false);
+    })
   }
 
   if (isTagsLoading) {
-    axios.get('http://localhost:3001/tags')
-      .then(function (response) {
-        setTags(response.data);
-        setIsTagsLoading(false);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+    getTags().then((data) => {
+      setTags(data);
+      setIsTagsLoading(false);
+    })
   }
 
   const addTodo = (text, todoTags = []) => {
@@ -71,7 +44,7 @@ function App() {
         }
 
         setTags([...tags, tag]);
-        writeTag(tag)
+        postTag(tag)
       } else {
         tag = tags[searchResult];
       }
@@ -87,7 +60,7 @@ function App() {
     };
 
     setTodos([...todos, newTodo]);
-    writeTodo(newTodo);
+    postTodo(newTodo);
   };
 
   const completeTodo = (id) => {
