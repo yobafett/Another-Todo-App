@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import './App.css';
 
-import { postTodo, postTag, getTodo, getTags } from './utils/TodoAPI';
+import { postTodo, postTag, getTodo, getTags, delTodo, delTag } from './utils/TodoAPI';
 import TagsSection from './components/TagsSection/TagsSection';
 import TodoForm from './components/TodoForm/TodoForm';
 import TodoList from './components/TodoLIst/TodoList';
@@ -77,11 +77,37 @@ function App() {
     }));
   }
 
-  const deleteTodo = (id) => setTodos(todos.filter((todo) => id !== todo.id));
+  const deleteTodo = (id) => {
+    const searchResult = todos.findIndex((todo) => todo.id === id);
+
+    if (searchResult >= 0) {
+      const todo = todos[searchResult];
+
+      todo.tags.forEach((tagItem) => {
+        const tagInCount = todos.reduce((currentCount, todoItem) => {
+
+          todoItem.tags.forEach((i) => {
+            currentCount = tagItem.id === i.id ? currentCount + 1 : currentCount;
+          })
+
+          return currentCount;
+        }, 0);
+
+        if (tagInCount <= 1) {
+          setTags(tags.filter((tag) => tag.id !== tagItem.id));
+          delTag(tagItem.id);
+        }
+      })
+
+      setTodos(todos.filter((todo) => id !== todo.id));
+      delTodo(id);
+    }
+  }
+
   const deleteAllTodos = () => setTodos([]);
   const deleteCompleteTodo = () => setTodos(todos.filter((item) => !item.complete));
 
-  const completeCount = todos.reduce(function (currentCount, todo) {
+  const completeCount = todos.reduce((currentCount, todo) => {
     return todo.complete ? currentCount + 1 : currentCount;
   }, 0);
 

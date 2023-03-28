@@ -1,108 +1,25 @@
 {
   "todos": [
     {
-      "id": "4a087099-6de7-41f1-a85f-6fbfa8de827a",
-      "text": "todo first",
+      "id": "b0890e8e-9e14-43eb-bddd-974edcf7b18d",
+      "text": "Test todo",
       "complete": false,
       "tags": [
         {
-          "id": "61a9e70d-1e56-49fd-b1b5-7178db2c6b99",
-          "text": "first"
-        },
-        {
-          "id": "0027daaf-ff58-4be1-bb44-03dceeaaf1d3",
-          "text": "todo"
-        }
-      ]
-    },
-    {
-      "id": "005d5c8a-b995-481a-afea-42657507bf60",
-      "text": "todo second",
-      "complete": false,
-      "tags": [
-        {
-          "id": "0027daaf-ff58-4be1-bb44-03dceeaaf1d3",
+          "id": "b87cc20f-06c7-4aa8-9577-dd50027c8a17",
           "text": "todo"
         },
         {
-          "id": "31945801-2989-4358-840a-bf7ebb51090c",
-          "text": "sec"
-        }
-      ]
-    },
-    {
-      "id": "2077b7b5-44df-4279-b43b-b40ebe5b7a7e",
-      "text": "thrid impact",
-      "complete": false,
-      "tags": [
-        {
-          "id": "c4ff3497-d3bc-4d97-adc2-5b859cced9aa",
-          "text": "hehe"
-        },
-        {
-          "id": "0027daaf-ff58-4be1-bb44-03dceeaaf1d3",
-          "text": "todo"
-        }
-      ]
-    },
-    {
-      "id": "7738f9a0-bd8b-448c-a909-9da8c985b04e",
-      "text": "fuor hehe",
-      "complete": false,
-      "tags": [
-        {
-          "id": "62a148bc-9f28-4ccc-a936-46eb3454be7e",
-          "text": "not hehe"
-        }
-      ]
-    },
-    {
-      "id": "b4bfd686-adc7-46ff-afda-b882a996755e",
-      "text": "bruh",
-      "complete": false,
-      "tags": [
-        {
-          "id": "62a148bc-9f28-4ccc-a936-46eb3454be7e",
-          "text": "not hehe"
-        }
-      ]
-    },
-    {
-      "id": "ca1978a7-d1b6-49ab-8166-eeca2d5704a5",
-      "text": "yoba",
-      "complete": false,
-      "tags": [
-        {
-          "id": "9168f293-4128-4b49-82dc-545687c46ad3",
-          "text": "xexe"
+          "id": "37194add-d03a-4025-b321-10c8aab5d59e",
+          "text": "test"
         }
       ]
     }
   ],
   "tags": [
     {
-      "id": "0027daaf-ff58-4be1-bb44-03dceeaaf1d3",
-      "text": "todo"
-    },
-    {
-      "id": "61a9e70d-1e56-49fd-b1b5-7178db2c6b99",
-      "text": "first"
-    },
-    {
-      "id": "31945801-2989-4358-840a-bf7ebb51090c",
-      "text": "sec"
-    },
-    {
-      "id": "c4ff3497-d3bc-4d97-adc2-5b859cced9aa",
-      "text": "hehe"
-    },
-    {
-      "id": "62a148bc-9f28-4ccc-a936-46eb3454be7e",
-      "text": "not hehe"
-    },
-    {
-      "id": "9168f293-4128-4b49-82dc-545687c46ad3",
-      "text": "xexe"
+      "id": "37194add-d03a-4025-b321-10c8aab5d59e",
+      "text": "test"
     }
   ]
 }
