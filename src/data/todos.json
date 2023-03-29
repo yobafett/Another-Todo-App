@@ -1,25 +1,4 @@
 {
-  "todos": [
-    {
-      "id": "b0890e8e-9e14-43eb-bddd-974edcf7b18d",
-      "text": "Test todo",
-      "complete": false,
-      "tags": [
-        {
-          "id": "b87cc20f-06c7-4aa8-9577-dd50027c8a17",
-          "text": "todo"
-        },
-        {
-          "id": "37194add-d03a-4025-b321-10c8aab5d59e",
-          "text": "test"
-        }
-      ]
-    }
-  ],
-  "tags": [
-    {
-      "id": "37194add-d03a-4025-b321-10c8aab5d59e",
-      "text": "test"
-    }
-  ]
+  "todos": [],
+  "tags": []
 }

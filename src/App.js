@@ -104,7 +104,15 @@ function App() {
     }
   }
 
-  const deleteAllTodos = () => setTodos([]);
+  const deleteAllTodos = () => {
+    todos.forEach(todo => delTodo(todo.id));
+    tags.forEach(tag => delTag(tag.id));
+
+    setTodos([]);
+    setTags([]);
+  }
+
+
   const deleteCompleteTodo = () => setTodos(todos.filter((item) => !item.complete));
 
   const completeCount = todos.reduce((currentCount, todo) => {
