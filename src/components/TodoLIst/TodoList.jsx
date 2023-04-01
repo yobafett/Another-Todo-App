@@ -12,7 +12,7 @@ const TodoList = ({ todos, deleteTodo, completeTodo, completeCount }) => {
                     tags={todo.tags}
                     complete={todo.complete}
                     completeHandler={() => completeTodo(todo.id)}
-                    deleteHandler={() => deleteTodo(todo.id)}
+                    deleteHandler={() => deleteTodo(todo)}
                 />)}
             {completeCount <= 0 ? null : <h2>You have completed {completeCount} todo!</h2>}
         </div>

@@ -39,19 +39,30 @@ function App() {
   }
 
   const addNewTag = (tagText) => {
-    const tag = createNewTag(tagText);
-
-    setTags([...tags, tag]);
-    postTag(tag);
-
-    return tag;
+    const newTag = createNewTag(tagText);
+    //setTags([...tags, newTag]);
+    postTag(newTag);
+    return newTag;
   }
 
   const processNewTags = (todoTags) => {
-    return todoTags.map((newTag) => {
+    const newTags = [];
+
+    const resultTags = todoTags.map((newTag) => {
       const searchResult = tags.findIndex((tag) => tag.text === newTag.toLowerCase());
-      return searchResult < 0 ? addNewTag(newTag) : tags[searchResult];
+
+      if (searchResult < 0) {
+        const newTagItem = addNewTag(newTag);
+        newTags.push(newTagItem);
+        return newTagItem;
+      } else {
+        return tags[searchResult];
+      }
     });
+
+    setTags([...tags, ...newTags]);
+
+    return resultTags;
   }
 
   const createNewTodo = (text, todoTags) => {
@@ -77,31 +88,27 @@ function App() {
     }));
   }
 
-  const deleteTodo = (id) => {
-    const searchResult = todos.findIndex((todo) => todo.id === id);
+  const clearTags = (tagItem) => {
+    const tagInCount = todos.reduce((currentCount, todoItem) => {
 
-    if (searchResult >= 0) {
-      const todo = todos[searchResult];
-
-      todo.tags.forEach((tagItem) => {
-        const tagInCount = todos.reduce((currentCount, todoItem) => {
-
-          todoItem.tags.forEach((i) => {
-            currentCount = tagItem.id === i.id ? currentCount + 1 : currentCount;
-          })
-
-          return currentCount;
-        }, 0);
-
-        if (tagInCount <= 1) {
-          setTags(tags.filter((tag) => tag.id !== tagItem.id));
-          delTag(tagItem.id);
-        }
+      todoItem.tags.forEach((i) => {
+        currentCount = tagItem.id === i.id ? currentCount + 1 : currentCount;
       })
 
-      setTodos(todos.filter((todo) => id !== todo.id));
-      delTodo(id);
+      return currentCount;
+    }, 0);
+
+    if (tagInCount <= 1) {
+      setTags(tags.filter((tag) => tag.id !== tagItem.id));
+      delTag(tagItem.id);
     }
+  }
+
+  const deleteTodo = (todoItem) => {
+    todoItem.tags.forEach((tagItem) => clearTags(tagItem));
+
+    setTodos(todos.filter((todo) => todoItem.id !== todo.id));
+    delTodo(todoItem.id);
   }
 
   const deleteAllTodos = () => {
@@ -113,7 +120,13 @@ function App() {
   }
 
 
-  const deleteCompleteTodo = () => setTodos(todos.filter((item) => !item.complete));
+  const deleteCompleteTodo = () => setTodos(todos.filter((item) => {
+    if (item.complete) {
+
+    }
+
+    return !item.complete;
+  }));
 
   const completeCount = todos.reduce((currentCount, todo) => {
     return todo.complete ? currentCount + 1 : currentCount;
