@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import './App.css';
-
 import { postTodo, postTag, getTodo, getTags, delTodo, delTag } from './utils/TodoAPI';
 import TagsSection from './components/TagsSection/TagsSection';
 import TodoForm from './components/TodoForm/TodoForm';
 import TodoList from './components/TodoLIst/TodoList';
 import TodoListActions from './components/TodoListActions/TodoListActions';
 
+import './App.css';
+
 function App() {
   const [todos, setTodos] = useState([]);
   const [tags, setTags] = useState([]);
-  const [activeTag, setActiveTag] = useState();
+  //const [activeTag, setActiveTag] = useState();
 
   const [isTodosLoading, setIsTodosLoading] = useState(true);
   const [isTagsLoading, setIsTagsLoading] = useState(true);
@@ -21,14 +21,14 @@ function App() {
     getTodo().then((data) => {
       setTodos(data);
       setIsTodosLoading(false);
-    })
+    });
   }
 
   if (isTagsLoading) {
     getTags().then((data) => {
       setTags(data);
       setIsTagsLoading(false);
-    })
+    });
   }
 
   const createNewTag = (tagText) => {
@@ -36,14 +36,13 @@ function App() {
       id: uuidv4(),
       text: tagText.toLowerCase()
     };
-  }
+  };
 
   const addNewTag = (tagText) => {
     const newTag = createNewTag(tagText);
-    //setTags([...tags, newTag]);
     postTag(newTag);
     return newTag;
-  }
+  };
 
   const processNewTags = (todoTags) => {
     const newTags = [];
@@ -63,7 +62,7 @@ function App() {
     setTags([...tags, ...newTags]);
 
     return resultTags;
-  }
+  };
 
   const createNewTodo = (text, todoTags) => {
     return {
@@ -72,7 +71,7 @@ function App() {
       complete: false,
       tags: todoTags.length > 0 ? processNewTags(todoTags) : []
     };
-  }
+  };
 
   const addTodo = (text, todoTags = []) => {
     const newTodo = createNewTodo(text, todoTags);
@@ -84,16 +83,16 @@ function App() {
     setTodos(todos.map((todo) => {
       return id === todo.id ?
         { ...todo, complete: !todo.complete }
-        : { ...todo }
+        : { ...todo };
     }));
-  }
+  };
 
   const clearTags = (tagItem) => {
     const tagInCount = todos.reduce((currentCount, todoItem) => {
 
       todoItem.tags.forEach((i) => {
         currentCount = tagItem.id === i.id ? currentCount + 1 : currentCount;
-      })
+      });
 
       return currentCount;
     }, 0);
@@ -102,14 +101,14 @@ function App() {
       setTags(tags.filter((tag) => tag.id !== tagItem.id));
       delTag(tagItem.id);
     }
-  }
+  };
 
   const deleteTodo = (todoItem) => {
     todoItem.tags.forEach((tagItem) => clearTags(tagItem));
 
     setTodos(todos.filter((todo) => todoItem.id !== todo.id));
     delTodo(todoItem.id);
-  }
+  };
 
   const deleteAllTodos = () => {
     todos.forEach(todo => delTodo(todo.id));
@@ -117,7 +116,7 @@ function App() {
 
     setTodos([]);
     setTags([]);
-  }
+  };
 
 
   const deleteCompleteTodo = () => setTodos(todos.filter((item) => {
