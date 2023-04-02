@@ -98,14 +98,24 @@ function App() {
     }, 0);
 
     if (tagInCount <= 1) {
-      setTags(tags.filter((tag) => tag.id !== tagItem.id));
       delTag(tagItem.id);
+
+      return tagItem;
     }
   };
 
   const deleteTodo = (todoItem) => {
-    todoItem.tags.forEach((tagItem) => clearTags(tagItem));
+    const deletingTags = [];
 
+    todoItem.tags.forEach((tagItem) => {
+      deletingTags.push(clearTags(tagItem));
+    });
+
+    const newTagsState = tags.filter(function (el) {
+      return deletingTags.indexOf(el) < 0;
+    });
+
+    setTags(newTagsState);
     setTodos(todos.filter((todo) => todoItem.id !== todo.id));
     delTodo(todoItem.id);
   };
