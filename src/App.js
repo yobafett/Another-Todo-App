@@ -129,13 +129,13 @@ function App() {
   };
 
 
-  const deleteCompleteTodo = () => setTodos(todos.filter((item) => {
-    if (item.complete) {
-
-    }
-
-    return !item.complete;
-  }));
+  const deleteCompleteTodo = () => {
+    todos.forEach(todoItem => {
+      if (todoItem.complete) {
+        deleteTodo(todoItem);
+      }
+    });
+  };
 
   const completeCount = todos.reduce((currentCount, todo) => {
     return todo.complete ? currentCount + 1 : currentCount;
