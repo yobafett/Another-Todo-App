@@ -12,7 +12,7 @@ import './App.css';
 function App() {
   const [todos, setTodos] = useState([]);
   const [tags, setTags] = useState([]);
-  //const [activeTag, setActiveTag] = useState();
+  const [activeTagId, setActiveTagId] = useState();
 
   const [isTodosLoading, setIsTodosLoading] = useState(true);
   const [isTagsLoading, setIsTagsLoading] = useState(true);
@@ -128,7 +128,6 @@ function App() {
     setTags([]);
   };
 
-
   const deleteCompleteTodo = () => {
     todos.forEach(todoItem => {
       if (todoItem.complete) {
@@ -137,14 +136,30 @@ function App() {
     });
   };
 
+  const activeTagHandler = (tagId) => {
+    if (tagId === activeTagId)
+      setActiveTagId();
+    else
+      setActiveTagId(tagId);
+  };
+
   const completeCount = todos.reduce((currentCount, todo) => {
     return todo.complete ? currentCount + 1 : currentCount;
   }, 0);
 
+  let todoListView = todos;
+  if (activeTagId) {
+    todoListView = todoListView.filter(todoItem => {
+      const allTagIds = todoItem.tags.map(tag => tag.id);
+      const activeTagContain = allTagIds.indexOf(activeTagId);
+      return activeTagContain >= 0;
+    });
+  }
+
   const todoListContent = isTodosLoading ?
     <div>Loading...</div> :
     <TodoList
-      todos={todos}
+      todos={todoListView}
       deleteTodo={deleteTodo}
       completeTodo={completeTodo}
       completeCount={completeCount}
@@ -160,7 +175,11 @@ function App() {
 
   const tagsContent = isTagsLoading ?
     <div>Loading...</div> :
-    <TagsSection tags={tags} />;
+    <TagsSection
+      tags={tags}
+      activeTagHandler={activeTagHandler}
+      activeTagId={activeTagId}
+    />;
 
   return (
     <div className="App">
