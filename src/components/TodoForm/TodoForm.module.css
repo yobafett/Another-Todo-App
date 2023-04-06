@@ -1,5 +1,5 @@
 .formWrapper {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 .formWrapper form {
@@ -14,13 +14,14 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
 .tagsInput {
     display: flex;
     flex-wrap: wrap;
     gap: 10px 25px;
+    align-items: center;
 }
 
 .textInput input {
