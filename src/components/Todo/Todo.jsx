@@ -15,7 +15,6 @@ const Todo = ({ text, tags, complete, completeHandler, deleteHandler }) => {
         <RiDeleteBin2Line className={styles.deleteIcon} onClick={deleteHandler} />
         <RiCheckFill className={styles.checkIcon} onClick={completeHandler} />
       </div>
-      <hr />
       <div className={styles.todoTags}>
         {tags.map((tag) => <li key={tag.id}>#{tag.text}</li>)}
       </div>
