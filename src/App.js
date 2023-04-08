@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { postTodo, postTag, getTodo, getTags, delTodo, delTag } from './utils/TodoAPI';
+import { postTodo, postTag, getTodo, getTags, delTodo, delTag, switchTodoComplete } from './utils/TodoAPI';
 import TagsSection from './components/TagsSection/TagsSection';
 import TodoForm from './components/TodoForm/TodoForm';
 import TodoList from './components/TodoLIst/TodoList';
@@ -85,6 +85,8 @@ function App() {
         { ...todo, complete: !todo.complete }
         : { ...todo };
     }));
+
+    switchTodoComplete(id);
   };
 
   const clearTags = (tagItem) => {
