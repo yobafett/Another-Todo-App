@@ -2,7 +2,7 @@ import { RiTodoFill, RiCheckFill, RiDeleteBin2Line } from 'react-icons/ri';
 import classNames from 'classnames';
 import styles from './Todo.module.css';
 
-const Todo = ({ text, tags, complete, completeHandler, deleteHandler }) => {
+const Todo = ({ text, tags, complete, completeHandler, deleteHandler, activeTagHandler }) => {
   const todoClasses = classNames(styles.todo, {
     [styles.completedTodo]: complete,
   });
@@ -16,7 +16,7 @@ const Todo = ({ text, tags, complete, completeHandler, deleteHandler }) => {
         <RiCheckFill className={styles.checkIcon} onClick={completeHandler} />
       </div>
       <div className={styles.todoTags}>
-        {tags.map((tag) => <li key={tag.id}>#{tag.text}</li>)}
+        {tags.map((tag) => <li onClick={() => activeTagHandler(tag.id)} key={tag.id}>#{tag.text}</li>)}
       </div>
     </div>
   );

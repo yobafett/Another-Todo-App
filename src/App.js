@@ -165,6 +165,7 @@ function App() {
       deleteTodo={deleteTodo}
       completeTodo={completeTodo}
       completeCount={completeCount}
+      activeTagHandler={activeTagHandler}
     />;
 
   const todoListActions = todos.length <= 0 ?
